@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://ddbeg0u24470x"]
+
+[ext_resource type="Script" path="res://Scripts/model/Collectible.cs" id="1_bhorq"]
+[ext_resource type="Texture2D" uid="uid://bxmub5eh5ktx5" path="res://Assets/radar1_.png" id="1_nobgg"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kv76x"]
+radius = 17.0294
+
+[node name="Mana" type="Node2D"]
+script = ExtResource("1_bhorq")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(1, 1)
+scale = Vector2(0.515625, 0.546875)
+texture = ExtResource("1_nobgg")
+
+[node name="CollectibleArea" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 8
+
+[node name="Collectible" type="CollisionShape2D" parent="CollectibleArea"]
+position = Vector2(1, 1)
+shape = SubResource("CircleShape2D_kv76x")
+
+[connection signal="area_entered" from="CollectibleArea" to="." method="_on_collectible_area_area_entered"]

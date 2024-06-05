@@ -1,0 +1,144 @@
+[gd_scene load_steps=21 format=3 uid="uid://clgfqena1ps23"]
+
+[ext_resource type="Texture2D" uid="uid://bou4j0t7fcl46" path="res://Assets/idle_lenta.png" id="1_ge2p5"]
+[ext_resource type="Script" path="res://player_02.gd" id="1_gvt2d"]
+[ext_resource type="Script" path="res://Scripts/controller/characterController.cs" id="2_pwuch"]
+[ext_resource type="Texture2D" uid="uid://c6jweg6cauar" path="res://Assets/jump_lenta.png" id="2_qcbkw"]
+[ext_resource type="Texture2D" uid="uid://bfmrgadcmjrq3" path="res://Assets/run_lenta.png" id="3_58pud"]
+[ext_resource type="AudioStream" uid="uid://bp010ncxrbn4b" path="res://audio/running_grass.ogg" id="4_bb663"]
+[ext_resource type="Script" path="res://Scripts/view/PlayerView.cs" id="7_7sdcw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0hiuo"]
+atlas = ExtResource("1_ge2p5")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7rn52"]
+atlas = ExtResource("1_ge2p5")
+region = Rect2(63, 0, 63, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pvbfo"]
+atlas = ExtResource("2_qcbkw")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bi748"]
+atlas = ExtResource("2_qcbkw")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w34sx"]
+atlas = ExtResource("3_58pud")
+region = Rect2(0, 0, 54, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lfmnl"]
+atlas = ExtResource("3_58pud")
+region = Rect2(55, 0, 55, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_boomu"]
+atlas = ExtResource("3_58pud")
+region = Rect2(110, 0, 55, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k7tch"]
+atlas = ExtResource("3_58pud")
+region = Rect2(165, 0, 55, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0c028"]
+atlas = ExtResource("3_58pud")
+region = Rect2(228, 0, 76, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6q71u"]
+atlas = ExtResource("3_58pud")
+region = Rect2(304, 0, 76, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g3xt2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0hiuo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7rn52")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pvbfo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bi748")
+}],
+"loop": true,
+"name": &"jumping",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w34sx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lfmnl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_boomu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k7tch")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0c028")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6q71u")
+}],
+"loop": true,
+"name": &"running",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sww0s"]
+size = Vector2(4.5, 5.5)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_joj3q"]
+radius = 2.0
+height = 4.0
+
+[node name="Player" type="Node2D"]
+script = ExtResource("1_gvt2d")
+
+[node name="PlayerController" type="CharacterBody2D" parent="."]
+script = ExtResource("2_pwuch")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="PlayerController"]
+texture_filter = 1
+position = Vector2(1.5, 3.25)
+scale = Vector2(0.101934, 0.10736)
+sprite_frames = SubResource("SpriteFrames_g3xt2")
+animation = &"running"
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerController"]
+light_mask = 0
+visibility_layer = 0
+position = Vector2(2, 4)
+shape = SubResource("RectangleShape2D_sww0s")
+
+[node name="runSoundGrass" type="AudioStreamPlayer2D" parent="PlayerController"]
+stream = ExtResource("4_bb663")
+
+[node name="HitboxShape" type="Area2D" parent="PlayerController"]
+collision_layer = 3
+collision_mask = 6
+
+[node name="HitboxPlayer" type="CollisionShape2D" parent="PlayerController/HitboxShape"]
+position = Vector2(2, 5)
+shape = SubResource("CapsuleShape2D_joj3q")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="PlayerView" type="CanvasLayer" parent="."]
+script = ExtResource("7_7sdcw")
+
+[node name="HealthBar" type="ProgressBar" parent="PlayerView"]
+offset_right = 4.0
+offset_bottom = 27.0

@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://46pxhtqnir71"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cx448"]
+size = Vector2(20, 472)
+
+[node name="Teleporter" type="Node2D"]
+
+[node name="Teleport" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="Teleport" type="CollisionShape2D" parent="Teleport"]
+position = Vector2(0, -177)
+shape = SubResource("RectangleShape2D_cx448")
+
+[connection signal="body_entered" from="Teleport" to="." method="OnTeleport"]
